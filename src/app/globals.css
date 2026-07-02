@@ -780,6 +780,29 @@ body.dark-mode .cta-btn.primary {
     background: var(--primary-light);
 }
 
+.resume-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.resume-section h3 {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-text {
+    margin-bottom: 22px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+body.dark-mode .resume-text {
+    color: var(--text-light);
+}
+
 body.dark-mode .cta-btn.secondary {
     background: var(--accent-color);
 }

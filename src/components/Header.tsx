@@ -16,7 +16,6 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [downloading, setDownloading] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef<HTMLElement>(null);
@@ -91,11 +90,6 @@ export default function Header() {
     localStorage.setItem("darkMode", String(next));
   }
 
-  function handleCvClick() {
-    setDownloading(true);
-    setTimeout(() => setDownloading(false), 2000);
-  }
-
   return (
     <>
       <header
@@ -147,25 +141,6 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <a
-                  href="/Yusuf.Aksu.CV.pdf"
-                  className="cv-button"
-                  id="downloadCV"
-                  download
-                  onClick={handleCvClick}
-                >
-                  {downloading ? (
-                    <>
-                      <i className="fas fa-spinner fa-spin"></i> İndiriliyor...
-                    </>
-                  ) : (
-                    <>
-                      <i className="fas fa-download"></i> CV&apos;mi İndir
-                    </>
-                  )}
-                </a>
-              </li>
               <li>
                 <button
                   id="dark-mode-toggle"

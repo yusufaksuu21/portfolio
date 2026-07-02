@@ -46,6 +46,23 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+
+        <div className="resume-section">
+          <h3>
+            <i className="fas fa-file-download"></i> Özgeçmiş
+          </h3>
+          <p className="resume-text">
+            Güncel CV&apos;mi PDF olarak indirmek için aşağıdaki butonu
+            kullanabilirsiniz.
+          </p>
+          <a
+            href="/Yusuf_Aksu_CV_TR.pdf"
+            className="cta-btn secondary"
+            download
+          >
+            <i className="fas fa-download"></i> CV&apos;yi İndir
+          </a>
+        </div>
       </div>
     </section>
   );
