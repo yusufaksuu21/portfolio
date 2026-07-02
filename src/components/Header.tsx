@@ -142,6 +142,11 @@ export default function Header() {
                 </li>
               ))}
               <li>
+                <a href="/Yusuf_Aksu_CV_TR.pdf" className="cv-button" download>
+                  <i className="fas fa-download"></i> Özgeçmiş
+                </a>
+              </li>
+              <li>
                 <button
                   id="dark-mode-toggle"
                   className="mode-btn"
