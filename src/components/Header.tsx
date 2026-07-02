@@ -143,7 +143,7 @@ export default function Header() {
               ))}
               <li>
                 <a href="/Yusuf_Aksu_CV_TR.pdf" className="cv-button" download>
-                  <i className="fas fa-download"></i> Özgeçmiş
+                  <i className="fas fa-download"></i> Güncel CV&apos;yi İndir
                 </a>
               </li>
               <li>

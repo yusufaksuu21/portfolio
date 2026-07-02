@@ -60,7 +60,7 @@ export default function HomePage() {
             className="cta-btn secondary"
             download
           >
-            <i className="fas fa-download"></i> CV&apos;yi İndir
+            <i className="fas fa-download"></i> Güncel CV&apos;yi İndir
           </a>
         </div>
       </div>
