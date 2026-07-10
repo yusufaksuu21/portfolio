@@ -108,7 +108,7 @@ src/
 ## 📄 Sayfalar
 
 ### 🏠 Anasayfa (`/`)
-- Hoş gelişin mesajı ile başlayır
+- Hoş geldiniz mesajı ile başlıyor
 - Yazılım Mühendisliği tanıtımı
 - Front-end, Back-end ve Yapay Zeka alanlarında kısa bilgi
 - "Projelerimi İncele" ve "İletişime Geç" butonları
