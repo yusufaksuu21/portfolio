@@ -4,48 +4,78 @@ export const metadata: Metadata = {
   title: "Projeler - Yusuf Aksu",
 };
 
-const projects = [
+type Project = {
+  icon: string;
+  title: string;
+  description: string;
+  tags: string[];
+  demoUrl?: string;
+};
+
+const projects: Project[] = [
   {
-    icon: "fas fa-drafting-compass",
-    title: "Kalıp Planı ve Yapısal Ön Boyutlandırma Aracı",
+    icon: "fas fa-file-contract",
+    title: "Sigorta Poliçe API",
     description:
-      "İnşaat mühendisleri için tarayıcı tabanlı kolon, kiriş ve perde duvar yerleşim görselleştirme aracı. HTML5 Canvas ve vanilla JavaScript ile geliştirildi; DXF, PDF, DOCX ve JSON dışa aktarma desteği sunar.",
+      "Müşteri, poliçe ve hasar kayıtları için katmanlı mimarili ASP.NET Core Web API. Repository/servis katmanları, global exception handling, SQLite ve Swagger dokümantasyonu.",
+    tags: [".NET 8", "Web API", "EF Core", "SQLite"],
   },
   {
-    icon: "fas fa-car",
-    title: "Otonom Araç Tespit Uygulaması",
+    icon: "fas fa-wrench",
+    title: "Oto Sanayi Randevu Sistemi",
     description:
-      "RTSP akışı üzerinden Python ve YOLOv8 ile gerçek zamanlı araç tespiti. OpenCV ile video işleme ve nesne sınıflandırma.",
-  },
-  {
-    icon: "fas fa-robot",
-    title: "AI Destekli Kariyer Destek Sistemi",
-    description:
-      "Python ve Gemini API kullanarak geliştirilen, özgeçmişleri analiz edip kariyer önerileri sunan Streamlit tabanlı uygulama.",
-  },
-  {
-    icon: "fas fa-square-parking",
-    title: "Akıllı Otopark Sistemi",
-    description:
-      "Django API ile backend tarafı yönetilen, Flutter ile mobil arayüzü sunulan gerçek zamanlı araç takip ve doluluk sistemi.",
-  },
-  {
-    icon: "fas fa-hospital",
-    title: "Hastane Randevu Yönetim Sistemi",
-    description:
-      "Java Swing ile geliştirilen masaüstü uygulaması; hasta kayıt, doktor ve randevu yönetimi modülleri içerir. Nesne yönelimli tasarım prensipleri ve SQL Server veritabanı entegrasyonu.",
-  },
-  {
-    icon: "fas fa-laptop-code",
-    title: "Kişisel Web Sitesi",
-    description:
-      "HTML, CSS ve JavaScript kullanarak oluşturduğum responsive tasarımlı kişisel portfolyo sitesi.",
+      "Oto sanayi işletmeleri için çevrim içi servis randevusu: müşteri araç/hizmet yönetimi, kapasiteye göre saat seçimi ve admin paneli. ASP.NET Core Identity ile rol tabanlı yetkilendirme; Render üzerinde canlı demo.",
+    tags: ["ASP.NET Core 9", "Razor Pages", "Identity", "Docker"],
+    demoUrl: "https://oto-sanayi-randevu-sistemi.onrender.com",
   },
   {
     icon: "fas fa-question-circle",
     title: "Soru Bankası Sistemi (Bitirme Projesi)",
     description:
-      "Öğretmenler için Django 4.2 tabanlı soru havuzu yönetimi, otomatik sınav oluşturma ve Word/PDF çıktı platformu. Gemini AI ile otomatik soru ayrıştırma; Celery + Redis ile arka plan işleme.",
+      "Öğretmenler için Django 4.2 tabanlı soru havuzu, otomatik sınav oluşturma ve Word/PDF çıktı. Gemini AI ile soru ayrıştırma; Celery + Redis ile arka plan işleme.",
+    tags: ["Django", "Gemini AI", "Celery", "Redis"],
+  },
+  {
+    icon: "fas fa-robot",
+    title: "AI Destekli Kariyer Destek Sistemi",
+    description:
+      "Python ve Gemini API ile özgeçmiş analizi ve kariyer önerileri sunan Streamlit uygulaması.",
+    tags: ["Python", "Streamlit", "Gemini API"],
+  },
+  {
+    icon: "fas fa-car",
+    title: "Otonom Araç Tespit Uygulaması",
+    description:
+      "RTSP akışında YOLOv8 ve OpenCV ile gerçek zamanlı araç tespiti ve video işleme.",
+    tags: ["Python", "YOLOv8", "OpenCV"],
+  },
+  {
+    icon: "fas fa-square-parking",
+    title: "Akıllı Otopark Sistemi",
+    description:
+      "Django API backend ve Flutter mobil arayüz ile gerçek zamanlı doluluk ve araç takibi.",
+    tags: ["Django", "Flutter", "REST API"],
+  },
+  {
+    icon: "fas fa-drafting-compass",
+    title: "Kalıp Planı ve Yapısal Ön Boyutlandırma Aracı",
+    description:
+      "İnşaat mühendisleri için tarayıcı tabanlı kolon, kiriş ve perde duvar görselleştirme; DXF, PDF, DOCX ve JSON dışa aktarma.",
+    tags: ["JavaScript", "Canvas", "CAD"],
+  },
+  {
+    icon: "fas fa-hospital",
+    title: "Hastane Randevu Yönetim Sistemi",
+    description:
+      "Java Swing masaüstü uygulaması: hasta, doktor ve randevu modülleri; OOP tasarım ve SQL Server entegrasyonu.",
+    tags: ["Java", "Swing", "SQL Server"],
+  },
+  {
+    icon: "fas fa-laptop-code",
+    title: "Kişisel Web Sitesi (Portfolyo)",
+    description:
+      "Next.js ve TypeScript ile geliştirdiğim responsive kişisel portfolyo sitesi; App Router, bileşen tabanlı yapı ve modern UI.",
+    tags: ["Next.js", "TypeScript", "React"],
   },
 ];
 
@@ -71,13 +101,28 @@ export default function ProjectsPage() {
 
       <div className="projects-grid">
         {projects.map((project) => (
-          <div className="project-card" key={project.title}>
+          <article className="project-card" key={project.title}>
             <div className="project-icon">
               <i className={project.icon}></i>
             </div>
             <h3>{project.title}</h3>
             <p>{project.description}</p>
-          </div>
+            <ul className="project-tags">
+              {project.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-demo-link"
+              >
+                <i className="fas fa-external-link-alt"></i> Canlı Demo
+              </a>
+            ) : null}
+          </article>
         ))}
       </div>
     </section>

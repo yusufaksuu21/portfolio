@@ -115,7 +115,9 @@ export default function Header() {
             />
             <div className="header-text">
               <h1>Yusuf Aksu</h1>
-              <p className="title">Yazılım Mühendisi</p>
+              <p className="title">
+                Yazılım Mühendisi · Python · AI · Backend · Web
+              </p>
             </div>
           </div>
           <nav>

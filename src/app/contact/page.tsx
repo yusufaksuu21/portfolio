@@ -10,9 +10,10 @@ export default function ContactPage() {
       <h2>
         <i className="fas fa-paper-plane"></i> İletişim
       </h2>
-      <p style={{ marginBottom: "30px" }}>
-        Projeleriniz veya işbirliği fırsatları hakkında benimle iletişime
-        geçebilirsiniz. En kısa sürede dönüş yapacağım.
+      <p className="contact-intro">
+        Python backend, yapay zeka entegrasyonu veya web projeleri için
+        işbirliği tekliflerinizi memnuniyetle değerlendiririm. En kısa sürede
+        dönüş yapacağım.
       </p>
 
       <div className="contact-grid">

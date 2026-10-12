@@ -9,28 +9,30 @@ export default function HomePage() {
         </h2>
 
         <p className="welcome-intro">
-          Merhaba! Ben <strong className="highlight">Yusuf Aksu</strong>, yapay
-          zeka ve yazılım geliştirme alanlarında çözümler üreten bir{" "}
+          Merhaba! Ben <strong className="highlight">Yusuf Aksu</strong>,
+          uçtan uca yazılım çözümleri geliştiren bir{" "}
           <strong className="highlight">Yazılım Mühendisi</strong>&apos;yim.
         </p>
 
-        <div className="welcome-description">
-          <p>
-            <i className="fas fa-palette icon-inline"></i>
-            <strong>Front-end</strong> dünyasında kullanıcı dostu arayüzler
-            tasarlıyor,
-          </p>
-          <p>
-            <i className="fas fa-server icon-inline"></i>
-            <strong>Back-end</strong> tarafında güçlü API&apos;lar
-            geliştiriyor,
-          </p>
-          <p>
-            <i className="fas fa-robot icon-inline"></i>
-            <strong>Yapay zeka</strong> ile geleceğin uygulamalarını inşa
-            ediyorum.
-          </p>
+        <div className="focus-areas" aria-label="Odak alanlarım">
+          <span className="focus-pill">
+            <i className="fab fa-python"></i> Python &amp; Backend
+          </span>
+          <span className="focus-pill">
+            <i className="fas fa-brain"></i> Yapay Zeka
+          </span>
+          <span className="focus-pill">
+            <i className="fas fa-globe"></i> Web Geliştirme
+          </span>
         </div>
+
+        <p className="welcome-summary">
+          Şu anda <strong>Python</strong> ile API ve servis katmanları,
+          <strong> yapay zeka</strong> entegrasyonları ve{" "}
+          <strong>modern web</strong> arayüzlerini aynı projede bir araya
+          getirmeye odaklanıyorum; veri modelinden kullanıcı deneyimine kadar
+          tutarlı, sürdürülebilir ürünler geliştiriyorum.
+        </p>
 
         <div className="cta-section">
           <p className="cta-text">
