@@ -12,7 +12,7 @@ const contactMethods = [
     label: "E-posta",
     value: "aksu.yusuf360@gmail.com",
     action: "E-posta gönder",
-    href: "mailto:aksu.yusuf360@gmail.com",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=aksu.yusuf360@gmail.com",
     icon: "fas fa-envelope",
   },
   {
