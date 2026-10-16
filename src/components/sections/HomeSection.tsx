@@ -37,7 +37,7 @@ export default function HomeSection() {
           </div>
         </Reveal>
         <button type="button" className="scroll-hint" aria-label="Hakkımda bölümüne git" onClick={() => go("about")}>
-          <span>Aşağı kaydır</span><i className="fas fa-chevron-down" aria-hidden="true"></i>
+          <i className="fas fa-chevron-down" aria-hidden="true"></i>
         </button>
       </div>
     </section>
