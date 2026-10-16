@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import PortfolioShell from "@/components/PortfolioShell";
 
 export const metadata: Metadata = {
-  title: "Yusuf Aksu / Yazılım Mühendisi",
+  title: "Yusuf Aksu | Yazılım Mühendisi",
   description:
-    "Yusuf Aksu - Yazılım Mühendisliği öğrencisi. Front-end, back-end ve yapay zeka alanlarında projeler.",
+    "Yusuf Aksu — Python backend, yapay zeka ve web odaklı yazılım mühendisi portfolyosu.",
 };
 
 export default function RootLayout({
@@ -18,7 +17,7 @@ export default function RootLayout({
     <html lang="tr">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
         <link
@@ -27,9 +26,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Header />
-        <main id="content">{children}</main>
-        <Footer />
+        <PortfolioShell>{children}</PortfolioShell>
       </body>
     </html>
   );

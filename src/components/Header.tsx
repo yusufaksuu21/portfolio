@@ -1,169 +1,127 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import SectionRail from "@/components/SectionRail";
+import { useScrollSections, type SectionId } from "@/context/ScrollContext";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-const navItems = [
-  { href: "/", label: "Anasayfa", icon: "fa-home" },
-  { href: "/about", label: "Hakkımda", icon: "fa-user" },
-  { href: "/projects", label: "Projeler", icon: "fa-code" },
-  { href: "/contact", label: "İletişim", icon: "fa-envelope" },
+const navItems: { id: SectionId; label: string; icon: string }[] = [
+  { id: "home", label: "Anasayfa", icon: "fa-house" },
+  { id: "about", label: "Hakkımda", icon: "fa-user" },
+  { id: "projects", label: "Projeler", icon: "fa-code" },
+  { id: "contact", label: "İletişim", icon: "fa-envelope" },
 ];
 
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener("theme-change", onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener("theme-change", onChange);
+  };
+}
+
+function getThemeSnapshot() {
+  return localStorage.getItem("darkMode") !== "false";
+}
+
+function getServerThemeSnapshot() {
+  return true;
+}
+
 export default function Header() {
-  const pathname = usePathname();
+  const { activeSection, scrollToSection } = useScrollSections();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const headerRef = useRef<HTMLElement>(null);
-  const lastScrollY = useRef(0);
-
-  // Dark mode tercihini oku
-  useEffect(() => {
-    const saved = localStorage.getItem("darkMode") === "true";
-    setIsDark(saved);
-  }, []);
+  const isDark = useSyncExternalStore(
+    subscribeToTheme,
+    getThemeSnapshot,
+    getServerThemeSnapshot,
+  );
+  const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", isDark);
+    document.body.classList.toggle("light-mode", !isDark);
   }, [isDark]);
 
-  // Header yüksekliğini ölç (spacer için)
   useEffect(() => {
-    function measure() {
-      if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
-    }
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [menuOpen]);
-
-  // Scroll yönüne göre header'ı gizle/göster
-  useEffect(() => {
-    function handleScroll() {
-      const currentY = window.scrollY;
-      if (menuOpen) return; // menü açıkken gizleme
-      if (currentY > lastScrollY.current && currentY > 120) {
-        setHidden(true);
-      } else {
-        setHidden(false);
+    if (!menuOpen) return;
+    function onPointerDown(e: PointerEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
       }
-      lastScrollY.current = currentY;
     }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [menuOpen]);
-
-  useEffect(() => {
-    if (menuOpen && window.innerHeight > window.innerWidth) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
     }
-  }, [menuOpen]);
-
-  useEffect(() => {
-    function isMobileMenu() {
-      const isPortrait = window.innerHeight > window.innerWidth;
-      const isLandscape =
-        window.innerWidth <= 900 && window.innerHeight <= window.innerWidth;
-      return isPortrait ? window.innerWidth <= 768 : isLandscape;
-    }
-    function handleResize() {
-      if (!isMobileMenu()) setMenuOpen(false);
-    }
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("orientationchange", handleResize);
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("orientationchange", handleResize);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
-  }, []);
+  }, [menuOpen]);
 
-  function toggleDarkMode(e: React.MouseEvent) {
-    e.stopPropagation();
-    const next = !isDark;
-    setIsDark(next);
-    localStorage.setItem("darkMode", String(next));
+  function navigate(id: SectionId) {
+    scrollToSection(id);
+    setMenuOpen(false);
+  }
+
+  function toggleTheme() {
+    localStorage.setItem("darkMode", String(!isDark));
+    window.dispatchEvent(new Event("theme-change"));
+  }
+
+  function links(mobile = false) {
+    return (
+      <>
+        {navItems.map((item) => (
+          <li key={item.id}>
+            <button
+              type="button"
+              className={`nav-link-btn${activeSection === item.id ? " active" : ""}`}
+              aria-current={activeSection === item.id ? "page" : undefined}
+              onClick={() => navigate(item.id)}
+            >
+              <i className={`fas ${item.icon}`} aria-hidden="true"></i> {item.label}
+            </button>
+          </li>
+        ))}
+        <li>
+          <a href="/Yusuf_Aksu_CV_TR.pdf" className="cv-button" download onClick={() => setMenuOpen(false)}>
+            <i className="fas fa-download" aria-hidden="true"></i> {mobile ? "CV İndir" : "CV"}
+          </a>
+        </li>
+      </>
+    );
   }
 
   return (
     <>
-      <header
-        ref={headerRef}
-        className={hidden ? "header-hidden" : ""}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 1000,
-        }}
-      >
-        <div className="header-container">
-          <div className="profile-header">
-            <Image
-              src="/fotocv.jpeg"
-              alt="Yusuf Aksu"
-              className="profile-img"
-              width={120}
-              height={120}
-              priority
-            />
-            <div className="header-text">
-              <h1>Yusuf Aksu</h1>
-              <p className="title">
-                Yazılım Mühendisi · Python · AI · Backend · Web
-              </p>
+      <header className="site-header">
+        <div className="site-header-inner">
+          <button type="button" className="brand-block" onClick={() => navigate("home")}>
+            <span className="brand-name">Yusuf Aksu</span>
+            <span className="brand-title">Yazılım Mühendisi</span>
+          </button>
+          <div className="header-actions" ref={navRef}>
+            <ul className="nav-links desktop-nav">
+              {links()}
+              <li><button className="mode-btn" type="button" onClick={toggleTheme} aria-label="Temayı değiştir"><i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`} aria-hidden="true"></i></button></li>
+            </ul>
+            <div className="mobile-nav-cluster">
+              <button className="mode-btn mode-btn-mobile" type="button" onClick={toggleTheme} aria-label="Temayı değiştir">
+                <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`} aria-hidden="true"></i>
+              </button>
+              <button className="menu-toggle" type="button" aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"} aria-expanded={menuOpen} aria-controls="mobile-nav-menu" onClick={() => setMenuOpen((v) => !v)}>
+                <i className={`fas ${menuOpen ? "fa-xmark" : "fa-bars"}`} aria-hidden="true"></i>
+              </button>
+              <ul id="mobile-nav-menu" className={`nav-links mobile-nav${menuOpen ? " show" : ""}`}>
+                {links(true)}
+              </ul>
             </div>
           </div>
-          <nav>
-            <button
-              className="menu-toggle"
-              id="menu-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                setMenuOpen((v) => !v);
-              }}
-            >
-              <i className={`fas ${menuOpen ? "fa-times" : "fa-bars"}`}></i>
-            </button>
-            <ul className={`nav-links${menuOpen ? " show" : ""}`} id="nav-menu">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={pathname === item.href ? "active" : ""}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <i className={`fas ${item.icon}`}></i> {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <a href="/Yusuf_Aksu_CV_TR.pdf" className="cv-button" download>
-                  <i className="fas fa-download"></i> Güncel CV&apos;yi İndir
-                </a>
-              </li>
-              <li>
-                <button
-                  id="dark-mode-toggle"
-                  className="mode-btn"
-                  type="button"
-                  onClick={toggleDarkMode}
-                >
-                  <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-                </button>
-              </li>
-            </ul>
-          </nav>
         </div>
       </header>
-      {/* Header fixed olduğu için içerik altına kaymasın diye boşluk */}
-      <div style={{ height: headerHeight }} />
+      <SectionRail />
     </>
   );
 }
